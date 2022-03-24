@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  producer:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      queue:
+        condition: service_healthy
+    volumes:
+      - ./producer:/server
+
+  consumer1:
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      queue:
+        condition: service_healthy
+    volumes:
+      - ./consumer:/server
+
+  consumer2:
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      queue:
+        condition: service_healthy
+    volumes:
+      - ./consumer:/server
+
+  queue:
+    image: "rabbitmq"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

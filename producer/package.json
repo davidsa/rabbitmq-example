@@ -1,0 +1,14 @@
+{
+  "name": "rabbitmq-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.8.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.0"
+  }
+}
